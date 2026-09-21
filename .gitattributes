@@ -1,0 +1,25 @@
+# Normalize every text file to LF inside the repository.
+* text=auto eol=lf
+
+# Files that must stay LF in the working copy as well: a shell script with
+# CRLF line endings fails with "bad interpreter" under bash.
+*.sh text eol=lf
+
+# Explicit types, so Git never guesses wrong.
+*.py text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+LICENSE text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Binary, never touched.
+*.zip binary
+*.png binary
+*.jpg binary
+*.blend binary
+*.ies binary
+*.ldt binary
