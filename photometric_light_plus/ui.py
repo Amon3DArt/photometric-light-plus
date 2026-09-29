@@ -40,13 +40,33 @@ class PHLP_PT_photometry(Panel):
 
         if not props.has_ies:
             column = layout.column(align=True)
-            column.label(text="No IES payload on this light", icon="INFO")
+            if storage.find_ies_node(light_data) is not None:
+                # The light already carries an IES node, from an earlier
+                # version or from another add-on. Nothing is touched without
+                # the user asking for it, so it is reported here instead.
+                column.label(text="IES node found, not managed yet", icon="INFO")
+                column.operator(
+                    "phlp.pack_all_ies", icon="PACKAGE", text="Adopt This Light"
+                ).active_only = True
+            else:
+                column.label(text="No IES payload on this light", icon="INFO")
             column.operator("phlp.replace_ies", icon="FILEBROWSER",
                             text="Load IES / LDT File")
-            column.operator("phlp.pack_all_ies", icon="PACKAGE")
             return
 
         text = storage.get_ies_text(light_data)
+
+        if storage.needs_packing(light_data):
+            box = layout.box()
+            row = box.row()
+            row.alert = True
+            row.label(
+                text="IES data still stored outside this .blend",
+                icon="ERROR",
+            )
+            box.operator(
+                "phlp.pack_all_ies", icon="PACKAGE", text="Store Inside The File"
+            ).active_only = True
 
         if not _engine_supports_ies(context):
             row = layout.row()

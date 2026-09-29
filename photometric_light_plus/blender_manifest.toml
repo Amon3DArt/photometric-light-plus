@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "photometric_light_plus"
-version = "1.0.0"
+version = "1.0.1"
 name = "Photometric Light Plus"
 tagline = "IES and EULUMDAT lights with a viewport photometric halo"
 maintainer = "Marco Caturano <info@marcocaturano.com>"
@@ -9,7 +9,7 @@ type = "add-on"
 
 website = "https://github.com/Amon3DArt/photometric-light-plus"
 
-tags = ["Lighting", "Import-Export", "Render"]
+tags = ["Lighting", "Import-Export"]
 
 blender_version_min = "4.5.0"
 

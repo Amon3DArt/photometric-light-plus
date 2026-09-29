@@ -12,10 +12,10 @@ Everything below is meant to be pasted into the form at
 | --- | --- |
 | Name | Photometric Light Plus |
 | ID | `photometric_light_plus` |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Tagline | IES and EULUMDAT lights with a viewport photometric halo |
 | Type | add-on |
-| Tags | Lighting, Import-Export, Render |
+| Tags | Lighting, Import-Export |
 | Blender version | 4.5.0 and above |
 | License | GPL-3.0-or-later |
 | Copyright | 2026 Marco Caturano |
@@ -66,6 +66,8 @@ printed in the file header.
 the render reproduces the absolute candela values stored in the file.
 Lumen based modes are available as well, with a choice of luminous efficacy,
 plus a plain multiplier for artistic control.
+
+**Stays out of the way.** The add-on registers no application handler: it never runs code when a file is opened, never walks over data-blocks it did not create and never modifies anything without being asked. A light whose IES data still lives outside the .blend is reported in its panel, with the packing operator one click away.
 
 **Reports what it read.** One click prints a full photometric report to the
 console: photometric type, angle grid, symmetry, peak intensity, beam angle,

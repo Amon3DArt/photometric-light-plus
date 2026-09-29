@@ -80,6 +80,22 @@ rejection, all of which apply to this add-on:
 Answer any moderator comment in the thread on the extension page; a new upload
 is only needed if code changes.
 
+## 5b. Rules learned from the review
+
+The moderation team rejected the first submission over two points; both are
+worth keeping in mind for every future version.
+
+- **No tag that does not describe the add-on.** `Render` was removed: the
+  add-on creates lights, it does not render.
+- **No load handler that iterates over data-blocks and changes them.** Anything
+  that runs on file open and rewrites the user's data is considered intrusive
+  and will not be accepted, however useful the migration is. Report the
+  situation in the UI and let the user trigger the fix with an operator.
+
+The same reasoning extends to timers that poll and write, to `msgbus`
+subscriptions that mutate data, and to anything that touches data-blocks the
+add-on did not create.
+
 ## 6. Releasing an update
 
 1. Bump `version` in the manifest, following semantic versioning.

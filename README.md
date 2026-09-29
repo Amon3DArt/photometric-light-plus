@@ -25,6 +25,9 @@ Compatible with Blender 4.5 LTS and 5.x.
   values, with optional lumen based modes and a selectable luminous efficacy.
 - **Validation report.** A one-click report prints the parsed photometry, the
   declared lumens and the integrated luminous flux to the console.
+- **No application handlers.** Nothing is registered in `bpy.app.handlers`:
+  opening a .blend costs nothing, and user data is only ever modified through
+  an operator the user invoked.
 
 ## Installation
 

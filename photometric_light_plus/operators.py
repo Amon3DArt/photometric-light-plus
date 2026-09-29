@@ -356,11 +356,24 @@ class PHLP_OT_pack_all_ies(Operator):
     bl_label = "Pack All IES Data"
     bl_options = {"REGISTER", "UNDO"}
 
+    active_only: BoolProperty(
+        name="Active Light Only",
+        description="Process only the light shown in the properties editor",
+        default=False,
+    )
+
     def execute(self, context):
         packed = 0
         skipped = 0
-        # Snapshot first: never iterate bpy.data while modifying it.
-        for light_data in list(bpy.data.lights):
+
+        if self.active_only:
+            active = getattr(context, "light", None)
+            targets = [active] if active is not None else []
+        else:
+            # Snapshot first: never iterate bpy.data while modifying it.
+            targets = list(bpy.data.lights)
+
+        for light_data in targets:
             if storage.find_ies_node(light_data) is None:
                 continue
             if storage.ensure_internal_ies(light_data):

@@ -181,6 +181,20 @@ def ensure_internal_ies(light_data):
     return True
 
 
+def needs_packing(light_data):
+    """True when the light still depends on a file outside the .blend.
+
+    Read only on purpose: the add-on reports the situation and lets the user
+    decide, it never rewrites a file it did not create.
+    """
+    node = find_ies_node(light_data)
+    if node is None:
+        return False
+    if getattr(node, "mode", "") == "EXTERNAL":
+        return True
+    return getattr(node, "ies", None) is None
+
+
 def pack_light_ies(light_data):
     """Public helper used by the operators, mirrors ``ensure_internal_ies``."""
     return ensure_internal_ies(light_data)

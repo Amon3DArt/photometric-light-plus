@@ -38,6 +38,9 @@ _draw_handle = None
 _shader = None
 
 # key -> {"solid": GPUBatch, "wire": GPUBatch}
+# Keyed on ``ID.session_uid``, which Blender never reuses within a session, so
+# entries left over from a closed file can never be matched by mistake. That is
+# why the add-on needs no load handler to flush this cache.
 _BATCH_CACHE = {}
 _BATCH_CACHE_LIMIT = 48
 
@@ -106,6 +109,20 @@ def _ensure_shader():
     del info
     del interface
     return _shader
+
+
+def _has_photometric_lights():
+    """Cheap gate for the draw callback.
+
+    Light data-blocks are few even in heavy scenes, so this costs far less than
+    walking the view layer objects on every redraw of a file that contains no
+    photometric light at all.
+    """
+    for light_data in bpy.data.lights:
+        props = getattr(light_data, "phlp", None)
+        if props is not None and props.has_ies:
+            return True
+    return False
 
 
 def clear_batch_cache():
@@ -210,6 +227,9 @@ def _draw_callback():
 
     scene = context.scene
     if scene is None or not getattr(scene, "phlp_show_halo", True):
+        return
+
+    if not _has_photometric_lights():
         return
 
     region_3d = context.region_data

@@ -4,6 +4,36 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [semantic versioning](https://semver.org/).
 
+## [1.0.1] - 2026-09-29
+
+Changes requested during the Extensions Platform review, plus the follow-up
+they implied.
+
+### Removed
+
+- The `Render` tag.
+- Every application handler. The add-on no longer registers anything in
+  `bpy.app.handlers`, so opening a .blend costs nothing whatever it contains.
+  The automatic migration of lights that ran on file load is gone with it: the
+  add-on no longer walks over data-blocks it did not create, and no longer
+  modifies user data without being asked.
+
+### Added
+
+- The light data panel reports, read only, when a light still depends on an IES
+  file stored outside the .blend, with the packing operator one click away.
+- `Pack All IES Data` gained an `Active Light Only` scope, so adopting a single
+  light is an explicit, local action.
+
+### Changed
+
+- The draw callback returns immediately when the file holds no photometric
+  light, instead of walking the view layer objects on every redraw.
+- Both caches are documented as keyed on `ID.session_uid`, which Blender never
+  reuses within a session. Entries from a closed file can never be matched by
+  mistake, which is what makes the load handlers unnecessary rather than merely
+  optional.
+
 ## [1.0.0] - 2026-09-21
 
 First public release. The prototype iterations that preceded it were internal
